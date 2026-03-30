@@ -2,6 +2,8 @@ import Navbar from "./Navbar";
 import Hero from "./Hero";
 import StatsBar from "./Stats";
 import Products from "./product";
+import Pricing from "./pricing";
+
 
 function App() {
   return (
@@ -10,6 +12,7 @@ function App() {
       <Hero />
       <StatsBar />
       <Products />
+      <Pricing />
     </>
   );
 }

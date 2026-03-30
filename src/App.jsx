@@ -3,6 +3,8 @@ import Hero from "./Hero";
 import StatsBar from "./Stats";
 import Products from "./product";
 import Pricing from "./pricing";
+import Footer from "./footer";
+
 
 
 function App() {
@@ -13,6 +15,7 @@ function App() {
       <StatsBar />
       <Products />
       <Pricing />
+      <Footer />
     </>
   );
 }

@@ -41,10 +41,10 @@ export default function Products({ cart, setCart, view, setView }) {
         <div className="flex justify-center gap-4 mt-6">
           <button
             onClick={() => setView("products")}
-            className={`px-5 py-2 rounded-full ${
+            className={`px-6 py-2 rounded-full transition ${
               view === "products"
-                ? "bg-purple-600 text-white"
-                : "text-black border"
+                ? "bg-gradient-to-r from-[#4F39F6] to-[#9514FA] text-white shadow-md"
+                : "text-gray-700 border border-gray-300 hover:bg-gray-100"
             }`}
           >
             Products
@@ -52,10 +52,10 @@ export default function Products({ cart, setCart, view, setView }) {
 
           <button
             onClick={() => setView("cart")}
-            className={`px-5 py-2 rounded-full ${
+            className={`px-6 py-2 rounded-full transition ${
               view === "cart"
-                ? "bg-purple-600 text-white"
-                : "text-black border"
+                ? "bg-gradient-to-r from-[#4F39F6] to-[#9514FA] text-white shadow-md"
+                : "text-gray-700 border border-gray-300 hover:bg-gray-100"
             }`}
           >
             Cart ({cart.length})
@@ -108,10 +108,10 @@ export default function Products({ cart, setCart, view, setView }) {
               <button
                 onClick={() => handleAddToCart(item)}
                 disabled={isInCart(item.id)}
-                className={`mt-6 w-full py-2 rounded-full ${
+                className={`mt-6 w-full py-2 rounded-full transition ${
                   isInCart(item.id)
                     ? "bg-gray-400 text-white cursor-not-allowed"
-                    : "bg-purple-600 text-white hover:bg-purple-700"
+                    : "bg-gradient-to-r from-[#4F39F6] to-[#9514FA] text-white hover:opacity-90 shadow-md"
                 }`}
               >
                 {isInCart(item.id) ? "Added to Cart" : "Buy Now"}
@@ -148,7 +148,7 @@ export default function Products({ cart, setCart, view, setView }) {
 
                   <button
                     onClick={() => handleRemove(index)}
-                    className="text-red-500 text-sm"
+                    className="text-red-500 text-sm hover:underline"
                   >
                     Remove
                   </button>
@@ -164,7 +164,7 @@ export default function Products({ cart, setCart, view, setView }) {
 
               <button
                 onClick={handleCheckout}
-                className="mt-6 w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white py-3 rounded-full"
+                className="mt-6 w-full bg-gradient-to-r from-[#4F39F6] to-[#9514FA] text-white py-3 rounded-full shadow-md hover:opacity-90 transition"
               >
                 Proceed to Checkout
               </button>

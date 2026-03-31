@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Hero from "./Hero";
 import StatsBar from "./Stats";
 import Products from "./product";
+import StepsSection from "./stepsection";
 import Pricing from "./pricing";
 import Footer from "./footer";
 
@@ -22,7 +23,7 @@ function App() {
         view={view}
         setView={setView}
       />
-
+      <StepsSection />
       <Pricing />
       <Footer />
     </>

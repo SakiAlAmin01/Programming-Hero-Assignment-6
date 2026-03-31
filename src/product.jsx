@@ -1,10 +1,32 @@
-import React from "react";
-import products from "./products.json";
+import React, { useState } from "react";
+import productsData from "./products.json";
 
 export default function Products() {
+  const [view, setView] = useState("products"); // products | cart
+  const [cart, setCart] = useState([]);
+
+  // Add to cart
+  const handleAddToCart = (product) => {
+    setCart((prev) => [...prev, product]);
+    setView("cart");
+  };
+
+  // Remove from cart
+  const handleRemove = (index) => {
+    setCart((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // Total price
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  // Checkout
+  const handleCheckout = () => {
+    setCart([]);
+    setView("products");
+  };
+
   return (
-    <div className="bg-gray-50 py-16 px-6 lg:px-12">
-      
+    <div className="bg-gray-50 py-16 px-6 lg:px-12 min-h-screen">
       {/* Heading */}
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-gray-800">
@@ -15,66 +37,126 @@ export default function Products() {
         </p>
 
         <div className="flex justify-center gap-4 mt-6">
-          <button className="bg-purple-600 text-white px-5 py-2 rounded-full">
+          <button
+            onClick={() => setView("products")}
+            className={`px-5 py-2 rounded-full ${
+              view === "products"
+                ? "bg-purple-600 text-white"
+                : "border"
+            }`}
+          >
             Products
           </button>
-          <button className="border px-5 py-2 rounded-full">
-            Cart (2)
+
+          <button
+            onClick={() => setView("cart")}
+            className={`px-5 py-2 rounded-full ${
+              view === "cart"
+                ? "bg-purple-600 text-white"
+                : "border"
+            }`}
+          >
+            Cart ({cart.length})
           </button>
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {products.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition"
-          >
-            
-            {/* Tag */}
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-2xl">{item.icon}</span>
-              <span className={`text-xs px-2 py-1 rounded-full 
-                ${item.tagType === "best" && "bg-yellow-100 text-yellow-600"}
-                ${item.tagType === "popular" && "bg-blue-100 text-blue-600"}
-                ${item.tagType === "new" && "bg-green-100 text-green-600"}
-              `}>
-                {item.tag}
-              </span>
+      {/* PRODUCTS VIEW */}
+      {view === "products" && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {productsData.map((item) => (
+            <div
+              key={item.id}
+              className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-2xl">{item.icon}</span>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full 
+                  ${item.tagType === "best" && "bg-yellow-100 text-yellow-600"}
+                  ${item.tagType === "popular" && "bg-blue-100 text-blue-600"}
+                  ${item.tagType === "new" && "bg-green-100 text-green-600"}
+                `}
+                >
+                  {item.tag}
+                </span>
+              </div>
+
+              <h3 className="text-lg font-semibold">{item.name}</h3>
+
+              <p className="text-sm text-gray-500 mt-2">
+                {item.description}
+              </p>
+
+              <p className="text-xl font-bold mt-4">
+                ${item.price}
+                <span className="text-sm text-gray-400">
+                  /{item.period}
+                </span>
+              </p>
+
+              <ul className="mt-4 space-y-1 text-sm text-gray-600">
+                {item.features.map((f, i) => (
+                  <li key={i}>✔ {f}</li>
+                ))}
+              </ul>
+
+              <button
+                onClick={() => handleAddToCart(item)}
+                className="mt-6 w-full bg-purple-600 text-white py-2 rounded-full hover:bg-purple-700"
+              >
+                Buy Now
+              </button>
             </div>
+          ))}
+        </div>
+      )}
 
-            {/* Title */}
-            <h3 className="text-lg font-semibold">{item.name}</h3>
+      {/* CART VIEW */}
+      {view === "cart" && (
+        <div className="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
+          <h3 className="text-xl font-semibold mb-6">Your Cart</h3>
 
-            {/* Desc */}
-            <p className="text-sm text-gray-500 mt-2">
-              {item.description}
-            </p>
+          {cart.length === 0 ? (
+            <p className="text-gray-500">Cart is empty</p>
+          ) : (
+            <>
+              {cart.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center bg-gray-100 p-4 rounded-lg mb-4"
+                >
+                  <div>
+                    <p className="font-medium">{item.name}</p>
+                    <p className="text-sm text-gray-500">
+                      ${item.price}
+                    </p>
+                  </div>
 
-            {/* Price */}
-            <p className="text-xl font-bold mt-4">
-              ${item.price}
-              <span className="text-sm text-gray-400">
-                /{item.period}
-              </span>
-            </p>
-
-            {/* Features */}
-            <ul className="mt-4 space-y-1 text-sm text-gray-600">
-              {item.features.map((f, i) => (
-                <li key={i}>✔ {f}</li>
+                  <button
+                    onClick={() => handleRemove(index)}
+                    className="text-red-500 text-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
               ))}
-            </ul>
 
-            {/* Button */}
-            <button className="mt-6 w-full bg-purple-600 text-white py-2 rounded-full hover:bg-purple-700">
-              Buy Now
-            </button>
+              <div className="flex justify-between items-center mt-6">
+                <p className="text-gray-500">Total:</p>
+                <p className="text-lg font-bold">${total}</p>
+              </div>
 
-          </div>
-        ))}
-      </div>
+              <button
+                onClick={handleCheckout}
+                className="mt-6 w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white py-3 rounded-full"
+              >
+                Proceed to Checkout
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }

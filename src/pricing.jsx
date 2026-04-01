@@ -58,7 +58,7 @@ export default function Pricing() {
           Simple, Transparent Pricing
         </h2>
         <p className="text-gray-500 mt-3">
-          Choose the plan that fits your needs. Upgrade or downgrade anytime.
+          Choose the plan that fit your needs. Upgrade or downgrade anytime.
         </p>
       </div>
 
